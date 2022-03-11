@@ -24,7 +24,7 @@ class ForexEnv(TradingEnv):
         prices = prices[self.frame_bound[0]-self.window_size:self.frame_bound[1]]
 
         diff = np.insert(np.diff(prices), 0, 0)
-        signal_features = np.column_stack((pd.concat([(self.df.iloc[:,:4]-self.df.iloc[:,:4].mean())/self.df.iloc[:,:4].std(), (self.df.iloc[:,4]-self.df.iloc[:,4].mean())/self.df.iloc[:,4].std()], axis=1).to_numpy()))
+        signal_features = (pd.concat([(self.df.iloc[:,:4]-self.df.iloc[:,:4].mean())/self.df.iloc[:,:4].std(), (self.df.iloc[:,4]-self.df.iloc[:,4].mean())/self.df.iloc[:,4].std()], axis=1).to_numpy())
 
         return prices, signal_features
 
