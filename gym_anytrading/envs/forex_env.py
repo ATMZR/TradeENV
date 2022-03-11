@@ -32,7 +32,7 @@ class ForexEnv(TradingEnv):
         back_data_volume = back_data_volume[self.frame_bound[0]-self.window_size:self.frame_bound[1]]
 
         diff = np.insert(np.diff(prices), 0, 0)
-        signal_features = np.column_stack(((self.back_data_price-self.back_data_price.mean())/self.back_data_price.std(), (self.back_data_volume-self.back_data_volume.mean())/self.back_data_volume.std()))
+        signal_features = np.column_stack(((back_data_price-back_data_price.mean())/back_data_price.std(), (back_data_volume-back_data_volume.mean())/back_data_volume.std()))
 
         return prices, signal_features
 
