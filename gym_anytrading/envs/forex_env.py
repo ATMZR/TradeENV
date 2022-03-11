@@ -26,11 +26,13 @@ class ForexEnv(TradingEnv):
         prices[self.frame_bound[0] - self.window_size]  # validate index (TODO: Improve validation)
         prices = prices[self.frame_bound[0]-self.window_size:self.frame_bound[1]]
 
+        back_data_price[self.frame_bound[0] - self.window_size]
         back_data_price = back_data_price[self.frame_bound[0]-self.window_size:self.frame_bound[1]]
-        back_data_price = back_data_price[self.frame_bound[0]-self.window_size:self.frame_bound[1]]
+        back_data_volume[self.frame_bound[0] - self.window_size]
+        back_data_volume = back_data_volume[self.frame_bound[0]-self.window_size:self.frame_bound[1]]
 
         diff = np.insert(np.diff(prices), 0, 0)
-        signal_features = np.column_stack(((self.back_data_price-self.back_data_price.mean())/self.back_data_price.std(), (self.back_data_price-self.back_data_price.mean())/self.back_data_price.std()))
+        signal_features = np.column_stack(((self.back_data_price-self.back_data_price.mean())/self.back_data_price.std(), (self.back_data_volume-self.back_data_volume.mean())/self.back_data_volume.std()))
 
         return prices, signal_features
 
