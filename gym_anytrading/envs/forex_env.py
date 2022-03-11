@@ -19,12 +19,18 @@ class ForexEnv(TradingEnv):
 
     def _process_data(self):
         prices = self.df.loc[:, 'Close'].to_numpy()
+        back_data_price = self.df.iloc[:,:4].to_numpy()
+        back_data_volume = self.df.iloc[:,4].to_numpy()
+
 
         prices[self.frame_bound[0] - self.window_size]  # validate index (TODO: Improve validation)
         prices = prices[self.frame_bound[0]-self.window_size:self.frame_bound[1]]
 
+        back_data_price = back_data_price[self.frame_bound[0]-self.window_size:self.frame_bound[1]]
+        back_data_price = back_data_price[self.frame_bound[0]-self.window_size:self.frame_bound[1]]
+
         diff = np.insert(np.diff(prices), 0, 0)
-        signal_features = (pd.concat([(self.df.iloc[:,:4]-self.df.iloc[:,:4].mean())/self.df.iloc[:,:4].std(), (self.df.iloc[:,4]-self.df.iloc[:,4].mean())/self.df.iloc[:,4].std()], axis=1).to_numpy())
+        signal_features = np.column_stack(((self.back_data_price-self.back_data_price.mean())/self.back_data_price.std(), (self.back_data_price-self.back_data_price.mean())/self.back_data_price.std()))
 
         return prices, signal_features
 
