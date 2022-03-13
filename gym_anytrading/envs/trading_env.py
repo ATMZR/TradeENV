@@ -72,7 +72,7 @@ class TradingEnv(gym.Env):
         self._done = False
         self._current_tick += 1
 
-        if self._current_tick == self._end_tick or self._total_profit < .9:
+        if self._current_tick == self._end_tick or self._total_profit < .7:
             self._done = True
 
         step_reward = self._calculate_reward(action)
