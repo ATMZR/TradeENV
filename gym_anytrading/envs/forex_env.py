@@ -1,6 +1,6 @@
 import numpy as np
-import pandas as pd
-
+from sklearn.preprocessing import StandardScaler
+from sklearn.externals.joblib import dump
 from .trading_env import TradingEnv, Actions, Positions
 
 
@@ -18,21 +18,21 @@ class ForexEnv(TradingEnv):
 
 
     def _process_data(self):
+        ss = StandardScaler()
         prices = self.df.loc[:, 'Close'].to_numpy()
-        back_data_price = self.df.iloc[:,:4].to_numpy()
-        back_data_volume = self.df.iloc[:,4].to_numpy()
+        back_data = ss.fit_transform(self.df.iloc[:,:4]).to_numpy()
+        dump(ss, 'std_scaler.bin', compress=True)
 
 
         prices[self.frame_bound[0] - self.window_size]  # validate index (TODO: Improve validation)
         prices = prices[self.frame_bound[0]-self.window_size:self.frame_bound[1]]
 
-        back_data_price[self.frame_bound[0] - self.window_size]
-        back_data_price = back_data_price[self.frame_bound[0]-self.window_size:self.frame_bound[1]]
-        back_data_volume[self.frame_bound[0] - self.window_size]
-        back_data_volume = back_data_volume[self.frame_bound[0]-self.window_size:self.frame_bound[1]]
+        back_data[self.frame_bound[0] - self.window_size]
+        back_data = back_data[self.frame_bound[0]-self.window_size:self.frame_bound[1]]
+
 
         diff = np.insert(np.diff(prices), 0, 0)
-        signal_features = np.column_stack(((back_data_price-back_data_price.mean())/back_data_price.std(), (back_data_volume-back_data_volume.mean())/back_data_volume.std()))
+        signal_features = np.column_stack(back_data)
 
         return prices, signal_features
 
