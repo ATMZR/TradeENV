@@ -4,7 +4,7 @@ from gym.utils import seeding
 import numpy as np
 from enum import Enum
 import matplotlib.pyplot as plt
-
+from random import randrange
 
 class Actions(Enum):
     Sell = 0
@@ -37,7 +37,7 @@ class TradingEnv(gym.Env):
         self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape=self.shape, dtype=np.float32)
 
         # episode
-        self._start_tick = self.window_size
+        self._start_tick =  randrange(df.shape[0])
         self._end_tick = len(self.prices) - 1
         self._done = None
         self._current_tick = None
