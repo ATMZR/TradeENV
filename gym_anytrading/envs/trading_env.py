@@ -30,7 +30,7 @@ class TradingEnv(gym.Env):
         self.df = df
         self.window_size = window_size
         self.prices, self.signal_features = self._process_data()
-        self.shape = (window_size, self.signal_features.shape[1])
+        self.shape = (self.signal_features.shape[1])
 
         # spaces
         self.action_space = spaces.Discrete(len(Actions))
@@ -102,7 +102,7 @@ class TradingEnv(gym.Env):
 
 
     def _get_observation(self):
-        return self.signal_features[(self._current_tick-self.window_size):self._current_tick]
+        return self.signal_features[(self._current_tick-self.window_size):self._current_tick][0]
 
 
     def _update_history(self, info):
