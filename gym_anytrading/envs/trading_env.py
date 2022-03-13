@@ -4,7 +4,7 @@ from gym.utils import seeding
 import numpy as np
 from enum import Enum
 import matplotlib.pyplot as plt
-from random import randrange
+
 
 class Actions(Enum):
     Sell = 0
@@ -37,7 +37,7 @@ class TradingEnv(gym.Env):
         self.observation_space = spaces.Box(low=-np.inf, high=np.inf, shape=self.shape, dtype=np.float32)
 
         # episode
-        self._start_tick =  randrange(df.shape[0])
+        self._start_tick = self.window_size
         self._end_tick = len(self.prices) - 1
         self._done = None
         self._current_tick = None
@@ -48,7 +48,6 @@ class TradingEnv(gym.Env):
         self._total_profit = None
         self._first_rendering = None
         self.history = None
-        self.i = 0
 
 
     def seed(self, seed=None):
@@ -66,16 +65,14 @@ class TradingEnv(gym.Env):
         self._total_profit = 1.  # unit
         self._first_rendering = True
         self.history = {}
-        self.i = 0
         return self._get_observation()
 
 
     def step(self, action):
-        self.i += 1
         self._done = False
         self._current_tick += 1
 
-        if self._current_tick == self._end_tick or self._total_profit < .9 or self.i >= 500:
+        if self._current_tick == self._end_tick or self._total_profit < .9:
             self._done = True
 
         step_reward = self._calculate_reward(action)
