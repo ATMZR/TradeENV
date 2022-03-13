@@ -29,7 +29,7 @@ class ForexEnv(TradingEnv):
 
         back_data[self.frame_bound[0] - self.window_size]
         back_data = back_data[self.frame_bound[0]-self.window_size:self.frame_bound[1]]
-        print(f'prices:\n {prices}\nback_data:\n {back_data}')
+        # print(f'prices:\n {prices}\nback_data:\n {back_data}')
 
 
         diff = np.insert(np.diff(prices), 0, 0)
