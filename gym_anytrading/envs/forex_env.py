@@ -20,7 +20,7 @@ class ForexEnv(TradingEnv):
     def _process_data(self):
         ss = StandardScaler()
         prices = self.df.loc[:, 'Close'].to_numpy()
-        back_data = ss.fit_transform(self.df.iloc[:,:4]).to_numpy()
+        back_data = ss.fit_transform(self.df.iloc[:,:]).to_numpy()
         dump(ss, 'std_scaler.bin', compress=True)
 
 
