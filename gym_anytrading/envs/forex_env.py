@@ -34,7 +34,7 @@ class ForexEnv(TradingEnv):
 
         diff = np.insert(np.diff(prices), 0, 0)
         # signal_features = np.column_stack(back_data)
-        signal_features = back_data
+        signal_features = back_data[0]
 
         return prices, signal_features
 
