@@ -3,6 +3,9 @@ from sklearn.preprocessing import StandardScaler
 from joblib import dump
 from .trading_env import TradingEnv, Actions, Positions
 
+import torch
+from torch.autograd import Variable
+
 
 class ForexEnv(TradingEnv):
 
@@ -33,6 +36,9 @@ class ForexEnv(TradingEnv):
 
 
         diff = np.insert(np.diff(prices), 0, 0)
+
+        back_data = Variable(torch.Tensor(back_data))
+        back_data = torch.reshape(back_data, (back_data.shape[0], 1, back_data.shape[1]))
         signal_features = back_data
 
 
