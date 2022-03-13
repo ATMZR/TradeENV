@@ -1,6 +1,6 @@
 import numpy as np
 from sklearn.preprocessing import StandardScaler
-from sklearn.externals.joblib import dump
+from joblib import dump
 from .trading_env import TradingEnv, Actions, Positions
 
 
