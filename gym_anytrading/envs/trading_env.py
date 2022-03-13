@@ -48,6 +48,7 @@ class TradingEnv(gym.Env):
         self._total_profit = None
         self._first_rendering = None
         self.history = None
+        self.i = 0
 
 
     def seed(self, seed=None):
@@ -65,14 +66,16 @@ class TradingEnv(gym.Env):
         self._total_profit = 1.  # unit
         self._first_rendering = True
         self.history = {}
+        self.i = 0
         return self._get_observation()
 
 
     def step(self, action):
+        self.i += 1
         self._done = False
         self._current_tick += 1
 
-        if self._current_tick == self._end_tick:
+        if self._current_tick == self._end_tick or self._total_profit < .9 or self.i >= 500:
             self._done = True
 
         step_reward = self._calculate_reward(action)

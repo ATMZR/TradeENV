@@ -2,7 +2,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 from joblib import dump
 from .trading_env import TradingEnv, Actions, Positions
-
+from random import randrange
 
 class ForexEnv(TradingEnv):
 
@@ -21,14 +21,15 @@ class ForexEnv(TradingEnv):
         ss = StandardScaler()
         prices = self.df.loc[:, 'Close'].to_numpy()
         back_data = ss.fit_transform(self.df.iloc[:,:])
+        gran = randrange(df.shape[0])
         dump(ss, 'std_scaler.bin', compress=True)
 
 
-        prices[self.frame_bound[0] - self.window_size]  # validate index (TODO: Improve validation)
-        prices = prices[self.frame_bound[0]-self.window_size:self.frame_bound[1]]
+        prices[self.frame_bound[0] - self.window_size + gran]  # validate index (TODO: Improve validation)
+        prices = prices[self.frame_bound[0]-self.window_size+gran:self.frame_bound[1]+gran]
 
-        back_data[self.frame_bound[0] - self.window_size]
-        back_data = back_data[self.frame_bound[0]-self.window_size:self.frame_bound[1]]
+        back_data[self.frame_bound[0] - self.window_size + gran]
+        back_data = back_data[self.frame_bound[0]-self.window_size+gran:self.frame_bound[1]+gran]
 
 
         diff = np.insert(np.diff(prices), 0, 0)
