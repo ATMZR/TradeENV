@@ -14,7 +14,7 @@ class ForexEnv(TradingEnv):
         self.unit_side = unit_side.lower()
         super().__init__(df, window_size)
 
-        self.trade_fee = 0.0003  # unit
+        self.trade_fee = 0.001  # unit
 
 
     def _process_data(self):
